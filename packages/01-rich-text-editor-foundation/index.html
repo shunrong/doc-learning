@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phase 1: 富文本编辑器基础</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      color: #667eea;
+      margin-bottom: 10px;
+      font-size: 32px;
+    }
+
+    .header p {
+      color: #666;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      background: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .tab:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .tab.active {
+      background: #667eea;
+      color: white;
+    }
+
+    .demo-section {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      display: none;
+    }
+
+    .demo-section.active {
+      display: block;
+    }
+
+    .demo-section h2 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    .demo-section h3 {
+      color: #555;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+
+    .description {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    #quill-editor {
+      height: 300px;
+      background: white;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+    }
+
+    #custom-editor {
+      min-height: 200px;
+      padding: 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      outline: none;
+      line-height: 1.6;
+      background: white;
+    }
+
+    #custom-editor:focus {
+      border-color: #667eea;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar button {
+      background: white;
+      border: 1px solid #ddd;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .toolbar button:hover {
+      background: #f0f0f0;
+      border-color: #667eea;
+    }
+
+    .toolbar button.active {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+
+    .info-box {
+      background: #e8f4f8;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      border-left: 4px solid #667eea;
+    }
+
+    .info-box h4 {
+      color: #667eea;
+      margin-bottom: 8px;
+    }
+
+    .info-box pre {
+      background: white;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+
+    .selection-demo {
+      margin-top: 20px;
+    }
+
+    .selection-info {
+      background: #fff3cd;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-family: monospace;
+      font-size: 14px;
+    }
+
+    code {
+      background: #f0f0f0;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: monospace;
+      color: #d63384;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📝 Phase 1: 富文本编辑器基础</h1>
+      <p>
+        学习目标：理解 ContentEditable 和 Selection API、掌握 Quill Delta 数据结构、实现基本的格式化功能
+      </p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-demo="quill">Demo 1: Quill 编辑器</button>
+      <button class="tab" data-demo="custom">Demo 2: 自定义编辑器</button>
+      <button class="tab" data-demo="selection">Demo 3: Selection API</button>
+      <button class="tab" data-demo="delta">Demo 4: Delta 数据结构</button>
+    </div>
+
+    <!-- Demo 1: Quill 编辑器 -->
+    <div class="demo-section active" id="demo-quill">
+      <h2>Demo 1: Quill 编辑器基础</h2>
+      <div class="description">
+        Quill 是一个现代化的富文本编辑器，提供了强大的 API 和模块化架构。
+        这个演示展示了 Quill 的基本使用和数据结构。
+      </div>
+      
+      <div id="quill-editor"></div>
+      
+      <div class="info-box">
+        <h4>当前文档内容（Delta 格式）：</h4>
+        <pre id="quill-delta">{}</pre>
+      </div>
+    </div>
+
+    <!-- Demo 2: 自定义编辑器 -->
+    <div class="demo-section" id="demo-custom">
+      <h2>Demo 2: 基于 ContentEditable 的自定义编辑器</h2>
+      <div class="description">
+        使用原生的 <code>contenteditable</code> 属性创建编辑器，并通过 <code>document.execCommand()</code> 实现格式化功能。
+        这能帮助你理解富文本编辑器的底层原理。
+      </div>
+      
+      <div class="toolbar">
+        <button data-command="bold">粗体 (B)</button>
+        <button data-command="italic">斜体 (I)</button>
+        <button data-command="underline">下划线 (U)</button>
+        <button data-command="strikeThrough">删除线</button>
+        <button data-command="formatBlock:h1">标题 1</button>
+        <button data-command="formatBlock:h2">标题 2</button>
+        <button data-command="formatBlock:p">段落</button>
+        <button data-command="insertUnorderedList">无序列表</button>
+        <button data-command="insertOrderedList">有序列表</button>
+        <button data-command="justifyLeft">左对齐</button>
+        <button data-command="justifyCenter">居中</button>
+        <button data-command="justifyRight">右对齐</button>
+      </div>
+
+      <div id="custom-editor" contenteditable="true">
+        <p>在这里开始编辑...</p>
+        <p>尝试选中文本并使用上面的工具栏按钮来格式化内容。</p>
+      </div>
+
+      <div class="info-box">
+        <h4>当前 HTML 内容：</h4>
+        <pre id="custom-html"></pre>
+      </div>
+    </div>
+
+    <!-- Demo 3: Selection API -->
+    <div class="demo-section" id="demo-selection">
+      <h2>Demo 3: Selection 和 Range API</h2>
+      <div class="description">
+        Selection API 用于获取和操作用户的文本选择。这是实现光标定位、选区高亮等功能的基础。
+      </div>
+
+      <div class="selection-demo">
+        <h3>可编辑区域：</h3>
+        <div id="selection-editor" contenteditable="true" style="min-height: 150px; padding: 15px; border: 2px solid #e0e0e0; border-radius: 8px; background: white;">
+          <p>请在这里选择一些文本，或者移动光标。</p>
+          <p>下方会实时显示 Selection 和 Range 的详细信息。</p>
+          <p><strong>提示：</strong>试试选择跨越多个段落的文本！</p>
+        </div>
+
+        <div class="selection-info" id="selection-info">
+          等待选择...
+        </div>
+
+        <div class="toolbar" style="margin-top: 15px;">
+          <button id="btn-get-selection">获取当前选区</button>
+          <button id="btn-select-all">全选</button>
+          <button id="btn-collapse-start">光标移到开始</button>
+          <button id="btn-collapse-end">光标移到结束</button>
+          <button id="btn-save-selection">保存选区</button>
+          <button id="btn-restore-selection">恢复选区</button>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <h4>Selection API 核心概念：</h4>
+        <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+          <li><code>window.getSelection()</code> - 获取当前选区对象</li>
+          <li><code>selection.anchorNode</code> - 选区起始节点</li>
+          <li><code>selection.focusNode</code> - 选区结束节点</li>
+          <li><code>selection.getRangeAt(0)</code> - 获取第一个 Range 对象</li>
+          <li><code>range.startContainer</code> - Range 开始容器</li>
+          <li><code>range.endContainer</code> - Range 结束容器</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Demo 4: Delta 数据结构 -->
+    <div class="demo-section" id="demo-delta">
+      <h2>Demo 4: Delta 数据结构深度解析</h2>
+      <div class="description">
+        Delta 是 Quill 使用的文档数据格式，它是一个基于 JSON 的格式，用于描述富文本内容和变更操作。
+      </div>
+
+      <h3>Delta 的三种操作类型：</h3>
+      <div class="info-box">
+        <h4>1. Insert（插入）</h4>
+        <pre>{ insert: "Hello", attributes: { bold: true } }</pre>
+        <p style="margin-top: 10px;">插入文本 "Hello" 并应用粗体格式</p>
+      </div>
+
+      <div class="info-box">
+        <h4>2. Delete（删除）</h4>
+        <pre>{ delete: 5 }</pre>
+        <p style="margin-top: 10px;">删除 5 个字符</p>
+      </div>
+
+      <div class="info-box">
+        <h4>3. Retain（保留）</h4>
+        <pre>{ retain: 3, attributes: { italic: true } }</pre>
+        <p style="margin-top: 10px;">保留 3 个字符，并应用斜体格式</p>
+      </div>
+
+      <h3 style="margin-top: 30px;">完整示例：</h3>
+      <div class="info-box">
+        <h4>文档内容的 Delta 表示：</h4>
+        <pre id="delta-example">{
+  "ops": [
+    { "insert": "富文本编辑器", "attributes": { "bold": true, "size": "large" } },
+    { "insert": "\n", "attributes": { "header": 1 } },
+    { "insert": "这是一个普通段落。" },
+    { "insert": "\n" },
+    { "insert": "这是", "attributes": { "italic": true } },
+    { "insert": "斜体", "attributes": { "italic": true, "color": "#667eea" } },
+    { "insert": "文本。" },
+    { "insert": "\n" }
+  ]
+}</pre>
+      </div>
+
+      <div class="info-box">
+        <h4>变更操作的 Delta 表示：</h4>
+        <p style="margin-bottom: 10px;">假设要在位置 5 插入 "新内容"：</p>
+        <pre>{
+  "ops": [
+    { "retain": 5 },
+    { "insert": "新内容" }
+  ]
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
+

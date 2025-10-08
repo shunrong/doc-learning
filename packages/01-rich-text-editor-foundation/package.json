@@ -1,0 +1,18 @@
+{
+  "name": "01-rich-text-editor-foundation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Phase 1: 富文本编辑器基础 - 理解 ContentEditable 和 Selection API",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "quill": "^2.0.2"
+  },
+  "devDependencies": {
+    "vite": "^5.4.11"
+  }
+}

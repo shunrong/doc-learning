@@ -1,0 +1,28 @@
+{
+  "name": "doc-learning",
+  "version": "1.0.0",
+  "private": true,
+  "description": "文档协同编辑技术 - 渐进式学习项目",
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "dev:phase1": "pnpm --filter 01-rich-text-editor-foundation dev",
+    "dev:phase2": "pnpm --filter 02-document-model-operations dev",
+    "dev:phase3": "pnpm --filter 03-history-undo-redo dev",
+    "dev:phase4": "pnpm --filter 04-realtime-infrastructure dev",
+    "dev:phase5": "pnpm --filter 05-collaborative-ot-engine dev",
+    "dev:phase6": "pnpm --filter 06-collaborative-crdt-yjs dev",
+    "clean": "pnpm -r exec rm -rf node_modules dist",
+    "test": "pnpm -r test"
+  },
+  "keywords": [
+    "collaborative-editing",
+    "rich-text-editor",
+    "OT",
+    "CRDT",
+    "websocket",
+    "real-time"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {}
+}
