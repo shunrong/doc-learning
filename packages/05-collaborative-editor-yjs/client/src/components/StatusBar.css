@@ -1,0 +1,53 @@
+/* 状态栏 */
+.status-bar {
+  display: flex;
+  gap: 20px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-label {
+  font-size: 13px;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+.status-value {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.room-name {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.status-indicator {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.status-indicator.connected,
+.status-indicator.synced {
+  background: rgba(76, 175, 80, 0.3);
+}
+
+.status-indicator.disconnected,
+.status-indicator.syncing {
+  background: rgba(255, 152, 0, 0.3);
+}
+

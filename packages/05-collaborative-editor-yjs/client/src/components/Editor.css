@@ -1,0 +1,165 @@
+/* 编辑器容器 */
+.editor-container {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* 加载状态 */
+.editor-loading {
+  padding: 40px;
+  text-align: center;
+  color: #666;
+  font-size: 1.1em;
+}
+
+/* 工具栏 */
+.editor-toolbar {
+  display: flex;
+  gap: 4px;
+  padding: 8px;
+  border-bottom: 1px solid #e0e0e0;
+  background: #f5f5f5;
+  flex-wrap: wrap;
+}
+
+.editor-toolbar button {
+  padding: 6px 12px;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.editor-toolbar button:hover:not(:disabled) {
+  background: #e8e8e8;
+  border-color: #999;
+}
+
+.editor-toolbar button:active:not(:disabled) {
+  background: #d8d8d8;
+}
+
+.editor-toolbar button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.editor-toolbar button.is-active {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+.toolbar-separator {
+  width: 1px;
+  background: #d0d0d0;
+  margin: 0 4px;
+}
+
+/* 编辑区域 */
+.tiptap-editor {
+  flex: 1;
+  padding: 20px;
+  outline: none;
+  overflow-y: auto;
+  min-height: 400px;
+  max-height: 600px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Tiptap 内容样式 */
+.tiptap-editor h1 {
+  font-size: 2em;
+  margin: 0.5em 0;
+  font-weight: bold;
+}
+
+.tiptap-editor h2 {
+  font-size: 1.5em;
+  margin: 0.5em 0;
+  font-weight: bold;
+}
+
+.tiptap-editor p {
+  margin: 0.5em 0;
+}
+
+.tiptap-editor strong {
+  font-weight: bold;
+}
+
+.tiptap-editor em {
+  font-style: italic;
+}
+
+.tiptap-editor ul,
+.tiptap-editor ol {
+  padding-left: 1.5em;
+  margin: 0.5em 0;
+}
+
+.tiptap-editor li {
+  margin: 0.25em 0;
+}
+
+/* 远程光标样式 */
+.collaboration-cursor__caret {
+  border-left: 2px solid;
+  border-right: 2px solid;
+  margin-left: -1px;
+  margin-right: -1px;
+  pointer-events: none;
+  position: relative;
+  word-break: normal;
+}
+
+.collaboration-cursor__label {
+  border-radius: 3px;
+  color: white;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  left: -1px;
+  line-height: normal;
+  padding: 2px 6px;
+  position: absolute;
+  top: -1.4em;
+  user-select: none;
+  white-space: nowrap;
+}
+
+/* 选区高亮 */
+.ProseMirror-yjs-selection {
+  opacity: 0.3;
+}
+
+/* 底部状态栏 */
+.editor-footer {
+  padding: 8px 12px;
+  border-top: 1px solid #e0e0e0;
+  background: #f9f9f9;
+  font-size: 12px;
+  color: #666;
+}
+
+.character-count {
+  font-family: monospace;
+}
+
+/* 占位符 */
+.tiptap-editor p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+

@@ -1,0 +1,14 @@
+{
+  "name": "05-collaborative-editor-yjs-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "ws": "^8.16.0",
+    "y-websocket": "^1.5.0"
+  }
+}

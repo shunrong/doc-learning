@@ -1,0 +1,13 @@
+{
+  "name": "05-collaborative-editor-yjs",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Phase 6: 基于 Yjs + Tiptap 的协同编辑器",
+  "scripts": {
+    "dev": "pnpm --parallel -r dev",
+    "dev:client": "pnpm --filter 05-collaborative-editor-yjs-client dev",
+    "dev:server": "pnpm --filter 05-collaborative-editor-yjs-server dev",
+    "build": "pnpm --filter 05-collaborative-editor-yjs-client build",
+    "install:all": "pnpm install && cd client && pnpm install && cd ../server && pnpm install"
+  }
+}
