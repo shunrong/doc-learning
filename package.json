@@ -8,8 +8,10 @@
     "dev:phase1": "pnpm --filter 01-rich-text-editor-foundation dev",
     "dev:phase2": "pnpm --filter 02-document-model-operations dev",
     "dev:phase3": "pnpm --filter 03-operational-transformation dev",
+    "dev:phase4": "pnpm --filter 04-crdt-fundamentals dev",
     "server:phase3": "pnpm --filter 03-operational-transformation server",
     "demo:phase3": "pnpm --filter 03-operational-transformation demo",
+    "demo:phase4": "pnpm --filter 04-crdt-fundamentals demo",
     "clean": "pnpm -r exec rm -rf node_modules dist",
     "test": "pnpm -r test"
   },

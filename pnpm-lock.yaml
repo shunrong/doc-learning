@@ -69,6 +69,30 @@ importers:
         specifier: ^8.16.0
         version: 8.18.3
 
+  packages/04-crdt-fundamentals:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.10.0
+        version: 20.19.19
+      '@vitest/coverage-v8':
+        specifier: 2.1.9
+        version: 2.1.9(vitest@2.1.9)
+      '@vitest/ui':
+        specifier: ^2.1.8
+        version: 2.1.9(vitest@2.1.9)
+      tsx:
+        specifier: ^4.20.6
+        version: 4.20.6
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+      vite:
+        specifier: ^5.4.11
+        version: 5.4.20(@types/node@20.19.19)
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@20.19.19)(@vitest/ui@2.1.9)
+
 packages:
 
   '@ampproject/remapping@2.3.0':
